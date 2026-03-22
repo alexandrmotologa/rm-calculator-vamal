@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Calculator Vamal MD</string>
+    <string name="parcel_value">Parcel Value</string>
+    <string name="shipping_cost">Shipping Cost</string>
+    <string name="currency">Currency</string>
+    <string name="category">Product Category</string>
+    <string name="apply_july_2026">Apply July 2026 rules</string>
+    <string name="calculate">Calculate</string>
+    <string name="calculation_result">Calculation Result</string>
+    <string name="calc_base">Calculation Base (MDL)</string>
+    <string name="customs_duty">Customs Duty</string>
+    <string name="vat">VAT (20%)</string>
+    <string name="procedure_fee">Customs Procedure Fee</string>
+    <string name="total_payment">Total to Pay</string>
+    <string name="save_history">Save to History</string>
+    <string name="history_title">Calculation History</string>
+    <string name="no_history">No saved calculations.</string>
+</resources>

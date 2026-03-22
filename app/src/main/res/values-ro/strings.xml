@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Calculator Vamal MD</string>
+    <string name="parcel_value">Valoare Colet</string>
+    <string name="shipping_cost">Cost Livrare</string>
+    <string name="currency">Valuta</string>
+    <string name="category">Categoria Produsului</string>
+    <string name="apply_july_2026">Aplică regulile din Iulie 2026</string>
+    <string name="calculate">Calculează</string>
+    <string name="calculation_result">Rezultat Calcul</string>
+    <string name="calc_base">Baza de calcul (MDL)</string>
+    <string name="customs_duty">Taxă Vamală</string>
+    <string name="vat">TVA (20%)</string>
+    <string name="procedure_fee">Taxă proceduri vamale</string>
+    <string name="total_payment">Total de plată</string>
+    <string name="save_history">Salvează în Istoric</string>
+    <string name="history_title">Istoric Calcule</string>
+    <string name="no_history">Nu există calcule salvate.</string>
+</resources>
