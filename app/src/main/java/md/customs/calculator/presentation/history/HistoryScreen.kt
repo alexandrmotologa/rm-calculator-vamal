@@ -133,7 +133,7 @@ fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHisto
             }
 
             Text(
-                text = "${AppStrings.get(LanguageManager.currentLanguage, "category_label")}: ${AppStrings.get(LanguageManager.currentLanguage, entry.category)}",
+                text = "${AppStrings.get(LanguageManager.currentLanguage, "category_label")}: ${AppStrings.get(LanguageManager.currentLanguage, getCategoryKey(entry.category))}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -211,5 +211,21 @@ object TrackingResolver {
             normalized.contains("altele") -> "" // Not clickable, just shows text
             else -> "" // Default to empty to avoid broken aggregators
         }
+    }
+}
+
+fun getCategoryKey(category: String): String {
+    return when (category) {
+        "Telefoane Mobile (0%)" -> "cat_phones"
+        "Laptopuri, PC (0%)" -> "cat_laptops"
+        "Piese auto (10%)" -> "cat_auto"
+        "Încălțăminte (10%)" -> "cat_shoes"
+        "Haine (15%)" -> "cat_clothes"
+        "Cosmetice (15%)" -> "cat_cosmetics"
+        "Jucării (0%)" -> "cat_toys"
+        "Suplimente alimentare (10%)" -> "cat_supplements"
+        "Electrocasnice (15%)" -> "cat_appliances"
+        "Altele (10%)" -> "cat_other"
+        else -> category
     }
 }
