@@ -1,0 +1,55 @@
+package md.customs.calculator.presentation.theme
+
+import androidx.compose.ui.graphics.Color
+
+// Premium Light Palette
+val LightBackground = Color(0xFFF8FAFC)
+val LightSurface = Color(0xFFFFFFFF)
+val LightPrimary = Color(0xFF2563EB)
+val LightOnPrimary = Color(0xFFFFFFFF)
+val LightPrimaryContainer = Color(0xFFEFF6FF)
+val LightOnPrimaryContainer = Color(0xFF1E40AF)
+val LightSecondary = Color(0xFF0D9488)
+val LightOnSecondary = Color(0xFFFFFFFF)
+val LightSecondaryContainer = Color(0xFFF0FDF4)
+val LightOnSecondaryContainer = Color(0xFF166534)
+val LightTertiary = Color(0xFFD97706)
+val LightOnTertiary = Color(0xFFFFFFFF)
+val LightTertiaryContainer = Color(0xFFFEF3C7)
+val LightOnTertiaryContainer = Color(0xFF78350F)
+val LightError = Color(0xFFDC2626)
+val LightOnError = Color(0xFFFFFFFF)
+val LightErrorContainer = Color(0xFFFEE2E2)
+val LightOnErrorContainer = Color(0xFF991B1B)
+val LightOnSurface = Color(0xFF0F172A)
+val LightOnSurfaceVariant = Color(0xFF64748B)
+val LightOutline = Color(0xFFCBD5E1)
+
+// Premium Dark Palette (Fintech/Obsidian theme)
+val DarkBackground = Color(0xFF0B0F19)
+val DarkSurface = Color(0xFF151E2E)
+val DarkPrimary = Color(0xFF3B82F6)
+val DarkOnPrimary = Color(0xFFFFFFFF)
+val DarkPrimaryContainer = Color(0xFF1E3A8A)
+val DarkOnPrimaryContainer = Color(0xFFDBEAFE)
+val DarkSecondary = Color(0xFF14B8A6)
+val DarkOnSecondary = Color(0xFFFFFFFF)
+val DarkSecondaryContainer = Color(0xFF065F46)
+val DarkOnSecondaryContainer = Color(0xFFD1FAE5)
+val DarkTertiary = Color(0xFFF59E0B)
+val DarkOnTertiary = Color(0xFF000000)
+val DarkTertiaryContainer = Color(0xFF78350F)
+val DarkOnTertiaryContainer = Color(0xFFFEF3C7)
+val DarkError = Color(0xFFEF4444)
+val DarkOnError = Color(0xFFFFFFFF)
+val DarkErrorContainer = Color(0xFF7F1D1D)
+val DarkOnErrorContainer = Color(0xFFFEE2E2)
+val DarkOnSurface = Color(0xFFF8FAFC)
+val DarkOnSurfaceVariant = Color(0xFF94A3B8)
+val DarkOutline = Color(0xFF334155)
+
+// Gradient Colors helper
+val GradientStart = Color(0xFF2563EB) // Blue
+val GradientEnd = Color(0xFF0D9488)   // Teal
+val DarkGradientStart = Color(0xFF3B82F6)
+val DarkGradientEnd = Color(0xFF14B8A6)

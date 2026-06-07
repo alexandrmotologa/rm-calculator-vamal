@@ -24,13 +24,13 @@ object AppStrings {
         "calculate" to "Calculează",
         "delete" to "Șterge",
         "save_history" to "Salvează în Istoric",
-        "july_2026_rules" to "Aplică noile reguli vamale (Iulie 2026)",
-        "law_description" to "Legea nr. Tax Code modificat — intră în vigoare din 1 iulie 2026",
+        "july_2026_rules" to "Aplică noile reguli vamale (1 Octombrie 2026)",
+        "law_description" to "",
         "read_details" to "Citește detalii despre lege →",
         "error_parcel_value" to "Valoarea coletului trebuie să fie mai mare ca 0.",
         "scutire_title" to "Scutire aplicată",
         "total_payment" to "Total de plată:",
-        "applied_july_2026" to "Aplicat legea Iulie 2026",
+        "applied_july_2026" to "Legea 1 Octombrie 2026",
         "tracker" to "Tracker",
         "follow" to "Urmărește",
         "result_title" to "Rezultat Calcul",
@@ -38,7 +38,7 @@ object AppStrings {
         "duty_tax" to "Taxă Vamală",
         "vat_tax" to "TVA (20%)",
         "proc_fee" to "Taxă proceduri vamale",
-        "read_law_detailed" to "Citește legea detaliat",
+        "read_law_detailed" to "Citește detalii despre lege",
         "history_title" to "Istoric Calcule",
         "back" to "Înapoi",
         "no_saved_calculations" to "Nu există calcule salvate.",
@@ -54,7 +54,12 @@ object AppStrings {
         "cat_toys" to "Jucării (0%)",
         "cat_supplements" to "Suplimente alimentare (10%)",
         "cat_appliances" to "Electrocasnice (15%)",
-        "cat_other" to "Altele (10%)"
+        "cat_other" to "Altele (10%)",
+        // New UI Keys
+        "section_product" to "1. Produs / Categorie",
+        "section_financials" to "2. Costuri & Transport",
+        "current_law" to "Legea Curentă",
+        "exemption_msg" to "Scutire aplicată: Coletele cu o valoare de până la 150 EUR sunt scutite de taxe vamale și TVA."
     )
 
     private val en = mapOf(
@@ -70,13 +75,13 @@ object AppStrings {
         "calculate" to "Calculate",
         "delete" to "Delete",
         "save_history" to "Save to History",
-        "july_2026_rules" to "Apply new customs rules (July 2026)",
-        "law_description" to "Law No. Tax Code modified — effective July 1, 2026",
+        "july_2026_rules" to "Apply new customs rules (October 1, 2026)",
+        "law_description" to "",
         "read_details" to "Read details about the law →",
         "error_parcel_value" to "Parcel value must be greater than 0.",
         "scutire_title" to "Exemption applied",
         "total_payment" to "Total payable:",
-        "applied_july_2026" to "Applied July 2026 law",
+        "applied_july_2026" to "October 1, 2026 Law",
         "tracker" to "Tracker",
         "follow" to "Track",
         "result_title" to "Calculation Result",
@@ -84,7 +89,7 @@ object AppStrings {
         "duty_tax" to "Customs Duty",
         "vat_tax" to "VAT (20%)",
         "proc_fee" to "Customs Procedure Fee",
-        "read_law_detailed" to "Read the law in detail",
+        "read_law_detailed" to "Read details about the law",
         "history_title" to "Calculation History",
         "back" to "Back",
         "no_saved_calculations" to "No saved calculations.",
@@ -100,7 +105,12 @@ object AppStrings {
         "cat_toys" to "Toys (0%)",
         "cat_supplements" to "Supplements (10%)",
         "cat_appliances" to "Appliances (15%)",
-        "cat_other" to "Other (10%)"
+        "cat_other" to "Other (10%)",
+        // New UI Keys
+        "section_product" to "1. Product / Category",
+        "section_financials" to "2. Costs & Shipping",
+        "current_law" to "Current Law",
+        "exemption_msg" to "Exemption applied: Parcels valued up to 150 EUR are exempt from customs duties and VAT."
     )
 
     private val ru = mapOf(
@@ -116,20 +126,20 @@ object AppStrings {
         "calculate" to "Рассчитать",
         "delete" to "Удалить",
         "save_history" to "Сохранить в историю",
-        "july_2026_rules" to "Применить новые правила (Июль 2026)",
-        "law_description" to "Закон № Изменен Налоговый кодекс — вступает в силу с 1 июля 2026",
+        "july_2026_rules" to "Применить новые правила (1 Октября 2026)",
+        "law_description" to "",
         "read_details" to "Подробнее о законе →",
         "error_parcel_value" to "Стоимость посылки должна быть больше 0.",
         "scutire_title" to "Освобождение применено",
         "total_payment" to "Итого к оплате:",
-        "applied_july_2026" to "Применен закон Июль 2026",
+        "applied_july_2026" to "Закон 1 Октября 2026",
         "tracker" to "Трекер",
         "follow" to "Отследить",
         "result_title" to "Результат расчета",
         "base_calc" to "База расчета (MDL)",
         "duty_tax" to "Таможенная пошлина",
         "vat_tax" to "НДС (20%)",
-        "proc_fee" to "Таможенная пошлина за процедуры",
+        "proc_fee" to "Таможенные процедуры",
         "read_law_detailed" to "Подробнее о законе",
         "history_title" to "История Расчетов",
         "back" to "Назад",
@@ -146,7 +156,12 @@ object AppStrings {
         "cat_toys" to "Игрушки (0%)",
         "cat_supplements" to "Пищевые добавки (10%)",
         "cat_appliances" to "Бытовая техника (15%)",
-        "cat_other" to "Другое (10%)"
+        "cat_other" to "Другое (10%)",
+        // New UI Keys
+        "section_product" to "1. Продукт / Категория",
+        "section_financials" to "2. Стоимость и доставка",
+        "current_law" to "Действующий закон",
+        "exemption_msg" to "Применяется освобождение: Посылки стоимостью до 150 евро освобождаются от таможенных пошлин и НДС."
     )
 
     private val translations = mapOf(

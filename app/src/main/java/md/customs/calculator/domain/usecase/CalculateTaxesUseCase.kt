@@ -49,8 +49,8 @@ class CalculateTaxesUseCase {
                     vatMdl = 0.0,
                     procedureFeeMdl = 0.0,
                     totalMdl = 0.0,
-                    exemptionMessage = "Scutire aplicată: Coletele cu o valoare de până la 150 EUR sunt scutite de taxe vamale și TVA.",
-                    exemptionLink = "https://customs.gov.md/ro/articles/bunuri-expediate-prin-intermediul-trimiterilor-postale-internationale"
+                    exemptionMessage = "exemption_msg",
+                    exemptionLink = "https://moldova1.md/p/75240/noi-reguli-pentru-cumparaturile-online-coletele-taxate-cu-tva-de-20--incepand-cu-1-octombrie"
                 )
             } else {
                 val base = valueMdl + shippingMdl
