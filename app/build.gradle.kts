@@ -11,14 +11,14 @@ plugins {
 
 android {
     namespace = "md.customs.calculator"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "md.customs.calculator"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 8
-        versionName = "1.6.1"
+        targetSdk = 36
+        versionCode = 9
+        versionName = "1.6.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
