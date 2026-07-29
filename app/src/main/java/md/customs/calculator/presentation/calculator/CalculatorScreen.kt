@@ -376,6 +376,79 @@ fun CalculatorScreen(
                     )
                 }
             }
+
+            // Card 4: Disclaimer & Government Sources
+            Card(
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    val uriHandler = LocalUriHandler.current
+                    
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Info,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Text(
+                            text = AppStrings.get(LanguageManager.currentLanguage, "disclaimer_title"),
+                            style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    
+                    Text(
+                        text = AppStrings.get(LanguageManager.currentLanguage, "disclaimer_text"),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    
+                    Divider(modifier = Modifier.padding(vertical = 4.dp), color = MaterialTheme.colorScheme.outlineVariant)
+                    
+                    Text(
+                        text = AppStrings.get(LanguageManager.currentLanguage, "source_customs_label") + " 🔗",
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        modifier = Modifier.clickable {
+                            uriHandler.openUri("https://customs.gov.md/ro/articles/trimiterile-postale-internationale")
+                        }
+                    )
+                    
+                    Text(
+                        text = AppStrings.get(LanguageManager.currentLanguage, "source_legis_label") + " 🔗",
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        modifier = Modifier.clickable {
+                            uriHandler.openUri("https://www.legis.md/cautare/getResults?doc_id=137957&lang=ro")
+                        }
+                    )
+                    
+                    Text(
+                        text = AppStrings.get(LanguageManager.currentLanguage, "source_bnm_label") + " 🔗",
+                        style = MaterialTheme.typography.labelMedium.copy(
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        modifier = Modifier.clickable {
+                            uriHandler.openUri("https://www.bnm.md/")
+                        }
+                    )
+                }
+            }
             
             // Error Message
             if (uiState.errorMessage != null) {

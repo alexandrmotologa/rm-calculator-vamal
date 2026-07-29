@@ -59,7 +59,12 @@ object AppStrings {
         "section_product" to "1. Produs / Categorie",
         "section_financials" to "2. Costuri & Transport",
         "current_law" to "Legea Curentă",
-        "exemption_msg" to "Scutire aplicată: Coletele cu o valoare de până la 150 EUR sunt scutite de taxe vamale și TVA."
+        "exemption_msg" to "Scutire aplicată: Coletele cu o valoare de până la 150 EUR sunt scutite de taxe vamale și TVA.",
+        "disclaimer_title" to "Informații Importante & Surse",
+        "disclaimer_text" to "Această aplicație NU reprezintă o entitate guvernamentală și NU este afiliată cu Serviciul Vamal al RM sau Guvernul RM.",
+        "source_customs_label" to "Serviciul Vamal RM (Trimiteri Poștale)",
+        "source_legis_label" to "Codul Vamal al RM (Legis.md)",
+        "source_bnm_label" to "Banca Națională a Moldovei (BNM)"
     )
 
     private val en = mapOf(
@@ -110,7 +115,12 @@ object AppStrings {
         "section_product" to "1. Product / Category",
         "section_financials" to "2. Costs & Shipping",
         "current_law" to "Current Law",
-        "exemption_msg" to "Exemption applied: Parcels valued up to 150 EUR are exempt from customs duties and VAT."
+        "exemption_msg" to "Exemption applied: Parcels valued up to 150 EUR are exempt from customs duties and VAT.",
+        "disclaimer_title" to "Important Info & Sources",
+        "disclaimer_text" to "This app DOES NOT represent a government entity and is NOT affiliated with Customs Service or Government of Moldova.",
+        "source_customs_label" to "Customs Service of Moldova (Postal Items)",
+        "source_legis_label" to "Customs Code of Moldova (Legis.md)",
+        "source_bnm_label" to "National Bank of Moldova (Exchange Rates)"
     )
 
     private val ru = mapOf(
@@ -161,7 +171,12 @@ object AppStrings {
         "section_product" to "1. Продукт / Категория",
         "section_financials" to "2. Стоимость и доставка",
         "current_law" to "Действующий закон",
-        "exemption_msg" to "Применяется освобождение: Посылки стоимостью до 150 евро освобождаются от таможенных пошлин и НДС."
+        "exemption_msg" to "Применяется освобождение: Посылки стоимостью до 150 евро освобождаются от таможенных пошлин и НДС.",
+        "disclaimer_title" to "Важная информация и источники",
+        "disclaimer_text" to "Это приложение НЕ представляет государственную структуру и НЕ связано с Таможенной службой РМ.",
+        "source_customs_label" to "Таможенная служба РМ (Почтовые отправления)",
+        "source_legis_label" to "Таможенный кодекс РМ (Legis.md)",
+        "source_bnm_label" to "Национальный банк Молдовы (Курсы валют)"
     )
 
     private val translations = mapOf(
