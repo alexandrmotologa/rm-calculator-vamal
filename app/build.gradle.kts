@@ -17,8 +17,8 @@ android {
         applicationId = "md.customs.calculator"
         minSdk = 26
         targetSdk = 36
-        versionCode = 10
-        versionName = "1.6.3"
+        versionCode = 11
+        versionName = "1.6.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -44,6 +44,7 @@ android {
         release {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
