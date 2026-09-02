@@ -6,6 +6,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Label
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -13,24 +17,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import md.customs.calculator.data.local.entity.CalculationHistoryEntity
+import md.customs.calculator.domain.model.ProductCategory
+import md.customs.calculator.presentation.util.AppStrings
+import md.customs.calculator.presentation.util.LanguageManager
+import md.customs.calculator.presentation.util.TrackingResolver
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import androidx.compose.material.icons.Icons
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Inventory
-import androidx.compose.material.icons.filled.Label
-import androidx.compose.material.icons.filled.LocalShipping
-import androidx.compose.material.icons.filled.Link
-import md.customs.calculator.presentation.util.AppStrings
-import md.customs.calculator.presentation.util.LanguageManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,11 +41,11 @@ fun HistoryScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { 
+                title = {
                     Text(
                         text = AppStrings.get(LanguageManager.currentLanguage, "history_title"),
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold)
-                    ) 
+                    )
                 },
                 navigationIcon = {
                     IconButton(
@@ -87,7 +85,7 @@ fun HistoryScreen(
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)
                     .padding(paddingValues)
-                    .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp),
                 contentPadding = PaddingValues(vertical = 16.dp)
             ) {
@@ -106,6 +104,7 @@ fun HistoryScreen(
 fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHistoryEntity) -> Unit) {
     val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
     val dateString = dateFormat.format(Date(entry.timestamp))
+    val category = ProductCategory.fromKey(entry.category)
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -134,8 +133,7 @@ fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHisto
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                
-                // Redesigned delete button container
+
                 IconButton(
                     onClick = { onDelete(entry) },
                     modifier = Modifier
@@ -152,7 +150,10 @@ fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHisto
                 }
             }
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f), modifier = Modifier.padding(vertical = 4.dp))
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
 
             // Details list with custom leading icons
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -161,7 +162,12 @@ fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHisto
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        Icon(Icons.Default.Inventory, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
+                        Icon(
+                            Icons.Default.Inventory,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(16.dp)
+                        )
                         Text(
                             text = "${AppStrings.get(LanguageManager.currentLanguage, "product_label")}: ${entry.productName}",
                             style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
@@ -174,9 +180,14 @@ fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHisto
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
-                    Icon(Icons.Default.Label, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
+                    Icon(
+                        Icons.AutoMirrored.Filled.Label,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(16.dp)
+                    )
                     Text(
-                        text = "${AppStrings.get(LanguageManager.currentLanguage, "category_label")}: ${AppStrings.get(LanguageManager.currentLanguage, getCategoryKey(entry.category))}",
+                        text = "${AppStrings.get(LanguageManager.currentLanguage, "category_label")}: ${AppStrings.get(LanguageManager.currentLanguage, category.key)}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -187,7 +198,12 @@ fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHisto
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        Icon(Icons.Default.LocalShipping, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(16.dp))
+                        Icon(
+                            Icons.Default.LocalShipping,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(16.dp)
+                        )
                         Text(
                             text = "${AppStrings.get(LanguageManager.currentLanguage, "delivery_label")}: ${entry.deliveryCompany}",
                             style = MaterialTheme.typography.bodyMedium,
@@ -207,7 +223,7 @@ fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHisto
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         Icon(
-                            imageVector = if (isClickable) Icons.Default.Link else Icons.Default.Label,
+                            imageVector = if (isClickable) Icons.Default.Link else Icons.AutoMirrored.Filled.Label,
                             contentDescription = null,
                             tint = if (isClickable) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(16.dp)
@@ -231,7 +247,10 @@ fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHisto
                 }
             }
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f), modifier = Modifier.padding(vertical = 4.dp))
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outline.copy(alpha = 0.1f),
+                modifier = Modifier.padding(vertical = 4.dp)
+            )
 
             // Total Cost display & Law Badge
             Row(
@@ -284,37 +303,5 @@ fun HistoryItemCard(entry: CalculationHistoryEntity, onDelete: (CalculationHisto
                 }
             }
         }
-    }
-}
-
-object TrackingResolver {
-    fun resolveUrl(company: String, trackerId: String): String {
-        val normalized = company.trim().lowercase()
-        return when {
-            normalized.contains("dhl") -> "https://www.dhl.com/en/express/tracking.html?AWB=$trackerId"
-            normalized.contains("fedex") -> "https://www.fedex.com/apps/fedextrack/?action=track&trackingnumbers=$trackerId"
-            normalized.contains("posta") -> "https://posta.md/ro/tracking"
-            normalized.contains("nova poshta") -> "https://novapost.com/ro-ro/tracking"
-            normalized.contains("fan courier") -> "https://www.fancourier.md/"
-            normalized.contains("pesoto") -> "https://pesoto.md/"
-            normalized.contains("altele") -> ""
-            else -> ""
-        }
-    }
-}
-
-fun getCategoryKey(category: String): String {
-    return when (category) {
-        "Telefoane Mobile (0%)" -> "cat_phones"
-        "Laptopuri, PC (0%)" -> "cat_laptops"
-        "Piese auto (10%)" -> "cat_auto"
-        "Încălțăminte (10%)" -> "cat_shoes"
-        "Haine (15%)" -> "cat_clothes"
-        "Cosmetice (15%)" -> "cat_cosmetics"
-        "Jucării (0%)" -> "cat_toys"
-        "Suplimente alimentare (10%)" -> "cat_supplements"
-        "Electrocasnice (15%)" -> "cat_appliances"
-        "Altele (10%)" -> "cat_other"
-        else -> category
     }
 }

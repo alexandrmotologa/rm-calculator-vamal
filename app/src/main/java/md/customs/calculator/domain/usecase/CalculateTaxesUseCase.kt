@@ -1,5 +1,7 @@
 package md.customs.calculator.domain.usecase
 
+import md.customs.calculator.domain.model.TaxConstants
+
 data class CalculationResult(
     val baseMdl: Double,
     val dutyMdl: Double,
@@ -36,13 +38,12 @@ class CalculateTaxesUseCase {
         val shippingMdl = shippingCost * selectedCurrencyRateToMdl
 
         // Step 2: Find EUR equivalent to check thresholds
-        // Safe division check for eurRateToMdl
-        val safeEurRate = if (eurRateToMdl > 0.0) eurRateToMdl else 1.0
+        val safeEurRate = if (eurRateToMdl > 0.0) eurRateToMdl else TaxConstants.DEFAULT_MDL_RATE
         val valueEur = valueMdl / safeEurRate
 
         return if (!applyJuly2026Rules) {
             // == Scenario A: Current Law ==
-            if (valueEur <= 150.0) {
+            if (valueEur <= TaxConstants.EXEMPTION_THRESHOLD_EUR) {
                 CalculationResult(
                     baseMdl = 0.0,
                     dutyMdl = 0.0,
@@ -50,13 +51,13 @@ class CalculateTaxesUseCase {
                     procedureFeeMdl = 0.0,
                     totalMdl = 0.0,
                     exemptionMessage = "exemption_msg",
-                    exemptionLink = "https://moldova1.md/p/75240/noi-reguli-pentru-cumparaturile-online-coletele-taxate-cu-tva-de-20--incepand-cu-1-octombrie"
+                    exemptionLink = TaxConstants.LEGISLATION_URL
                 )
             } else {
                 val base = valueMdl + shippingMdl
                 val duty = base * dutyPercentage
-                val vat = (base + duty) * 0.20
-                val procedureFee = 50.0
+                val vat = (base + duty) * TaxConstants.STANDARD_VAT_RATE
+                val procedureFee = TaxConstants.STANDARD_PROCEDURE_FEE_MDL
                 val total = duty + vat + procedureFee
 
                 CalculationResult(
@@ -68,13 +69,13 @@ class CalculateTaxesUseCase {
                 )
             }
         } else {
-            // == Scenario B: July 2026 Law ==
-            if (valueEur <= 150.0) {
+            // == Scenario B: Upcoming Law ==
+            if (valueEur <= TaxConstants.EXEMPTION_THRESHOLD_EUR) {
                 // If <= 150 EUR, shipping is not included in the base.
                 val base = valueMdl
                 val duty = 0.0
-                val vat = base * 0.20
-                val procedureFee = 20.0
+                val vat = base * TaxConstants.STANDARD_VAT_RATE
+                val procedureFee = TaxConstants.REDUCED_PROCEDURE_FEE_MDL
                 val total = vat + procedureFee
 
                 CalculationResult(
@@ -85,11 +86,11 @@ class CalculateTaxesUseCase {
                     totalMdl = total
                 )
             } else {
-                // If > 150 EUR, it's the exact same math as the Current Law > 150 EUR.
+                // If > 150 EUR, shipping is included, standard duty & fee apply.
                 val base = valueMdl + shippingMdl
                 val duty = base * dutyPercentage
-                val vat = (base + duty) * 0.20
-                val procedureFee = 50.0
+                val vat = (base + duty) * TaxConstants.STANDARD_VAT_RATE
+                val procedureFee = TaxConstants.STANDARD_PROCEDURE_FEE_MDL
                 val total = duty + vat + procedureFee
 
                 CalculationResult(

@@ -5,14 +5,20 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import md.customs.calculator.data.local.datastore.SettingsManager
+import md.customs.calculator.data.local.entity.CalculationHistoryEntity
+import md.customs.calculator.domain.model.Currency
+import md.customs.calculator.domain.model.ProductCategory
+import md.customs.calculator.domain.model.TaxConstants
 import md.customs.calculator.domain.repository.ExchangeRateRepository
+import md.customs.calculator.domain.repository.HistoryRepository
 import md.customs.calculator.domain.usecase.CalculateTaxesUseCase
 import md.customs.calculator.domain.usecase.CalculationResult
-import md.customs.calculator.data.local.dao.CalculationHistoryDao
-import md.customs.calculator.data.local.entity.CalculationHistoryEntity
 import md.customs.calculator.presentation.util.AppLanguage
+import md.customs.calculator.presentation.util.LanguageManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -20,9 +26,9 @@ import java.util.Locale
 data class CalculatorUiState(
     val parcelValue: String = "",
     val shippingCost: String = "",
-    val selectedCurrency: String = "MDL",
-    val selectedCategory: String = "cat_phones",
-    val dutyPercentage: Double = 0.0,
+    val selectedCurrency: Currency = Currency.MDL,
+    val selectedCategory: ProductCategory = ProductCategory.PHONES,
+    val dutyPercentage: Double = ProductCategory.PHONES.defaultDutyRate,
     val isJuly2026LawEnabled: Boolean = false,
     val calculationResult: CalculationResult? = null,
     val isLoading: Boolean = false,
@@ -36,17 +42,21 @@ data class CalculatorUiState(
 class CalculatorViewModel(
     private val calculateTaxesUseCase: CalculateTaxesUseCase,
     private val exchangeRateRepository: ExchangeRateRepository,
-    private val historyDao: CalculationHistoryDao
+    private val historyRepository: HistoryRepository,
+    private val settingsManager: SettingsManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CalculatorUiState())
     val uiState: StateFlow<CalculatorUiState> = _uiState.asStateFlow()
 
-    fun updateLanguage(lang: AppLanguage) {
-        _uiState.update { it.copy(currentLanguage = lang) }
-    }
-
     init {
+        // Load saved language preference
+        viewModelScope.launch {
+            val savedLang = settingsManager.selectedLanguage.firstOrNull() ?: AppLanguage.RO
+            LanguageManager.currentLanguage = savedLang
+            _uiState.update { it.copy(currentLanguage = savedLang) }
+        }
+
         // Pre-fetch BNM rates when app opens
         viewModelScope.launch {
             try {
@@ -54,8 +64,16 @@ class CalculatorViewModel(
                 val todayStr = dateFormat.format(Date())
                 exchangeRateRepository.getRates(todayStr)
             } catch (e: Exception) {
-                // Ignore silent pre-fetch errors
+                // Silent catch for initial warm-up
             }
+        }
+    }
+
+    fun updateLanguage(lang: AppLanguage) {
+        LanguageManager.currentLanguage = lang
+        _uiState.update { it.copy(currentLanguage = lang) }
+        viewModelScope.launch {
+            settingsManager.saveSelectedLanguage(lang)
         }
     }
 
@@ -79,12 +97,17 @@ class CalculatorViewModel(
         _uiState.update { it.copy(shippingCost = newValue) }
     }
 
-    fun updateCurrency(newCurrency: String) {
+    fun updateCurrency(newCurrency: Currency) {
         _uiState.update { it.copy(selectedCurrency = newCurrency) }
     }
 
-    fun updateCategory(newCategory: String, dutyPct: Double) {
-        _uiState.update { it.copy(selectedCategory = newCategory, dutyPercentage = dutyPct) }
+    fun updateCategory(newCategory: ProductCategory) {
+        _uiState.update {
+            it.copy(
+                selectedCategory = newCategory,
+                dutyPercentage = newCategory.defaultDutyRate
+            )
+        }
     }
 
     fun toggleJuly2026Law(enabled: Boolean) {
@@ -98,12 +121,12 @@ class CalculatorViewModel(
     fun saveCalculationToHistory() {
         val state = _uiState.value
         val result = state.calculationResult ?: return
-        
+
         val entity = CalculationHistoryEntity(
             parcelValue = state.parcelValue.toDoubleOrNull() ?: 0.0,
             shippingCost = state.shippingCost.toDoubleOrNull() ?: 0.0,
-            currency = state.selectedCurrency,
-            category = state.selectedCategory,
+            currency = state.selectedCurrency.code,
+            category = state.selectedCategory.key,
             customsDuty = result.dutyMdl,
             vat = result.vatMdl,
             processingFee = result.procedureFeeMdl,
@@ -116,7 +139,7 @@ class CalculatorViewModel(
         )
 
         viewModelScope.launch {
-            historyDao.insertCalculation(entity)
+            historyRepository.saveCalculation(entity)
             clearResult()
         }
     }
@@ -141,12 +164,14 @@ class CalculatorViewModel(
 
                 // Retrieve mapping from Repository
                 val rates = exchangeRateRepository.getRates(todayStr)
-                
+
                 val rateMap = rates.toMutableMap()
-                rateMap["MDL"] = 1.0f // Ensure intrinsic MDL conversion is 1:1
-                
-                val selectedCurrencyRate = rateMap[currentState.selectedCurrency]?.toDouble() ?: 1.0
-                val eurRate = rateMap["EUR"]?.toDouble() ?: 20.0
+                rateMap[Currency.MDL.code] = TaxConstants.DEFAULT_MDL_RATE.toFloat()
+
+                val selectedCurrencyRate = rateMap[currentState.selectedCurrency.code]?.toDouble()
+                    ?: TaxConstants.DEFAULT_MDL_RATE
+                val eurRate = rateMap[Currency.EUR.code]?.toDouble()
+                    ?: TaxConstants.DEFAULT_EUR_RATE_FALLBACK
 
                 // Perform the Math logic
                 val result = calculateTaxesUseCase(
@@ -161,11 +186,11 @@ class CalculatorViewModel(
                 _uiState.update { it.copy(calculationResult = result, isLoading = false) }
 
             } catch (e: Exception) {
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         isLoading = false,
                         errorMessage = "Eroare la obținerea cursurilor valutare: ${e.message}"
-                    ) 
+                    )
                 }
             }
         }
@@ -179,9 +204,9 @@ class CalculatorViewModel(
                 deliveryCompany = "",
                 trackerId = "",
                 productName = "",
-                selectedCurrency = "MDL",
-                selectedCategory = "cat_phones",
-                dutyPercentage = 0.0,
+                selectedCurrency = Currency.MDL,
+                selectedCategory = ProductCategory.PHONES,
+                dutyPercentage = ProductCategory.PHONES.defaultDutyRate,
                 isJuly2026LawEnabled = false,
                 calculationResult = null,
                 errorMessage = null

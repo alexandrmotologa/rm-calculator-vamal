@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import md.customs.calculator.data.local.dao.CalculationHistoryDao
 import md.customs.calculator.data.local.entity.CalculationHistoryEntity
+import md.customs.calculator.domain.repository.HistoryRepository
 
 class HistoryViewModel(
-    private val historyDao: CalculationHistoryDao
+    private val historyRepository: HistoryRepository
 ) : ViewModel() {
 
-    val historyEntries: StateFlow<List<CalculationHistoryEntity>> = historyDao.getAllHistory()
+    val historyEntries: StateFlow<List<CalculationHistoryEntity>> = historyRepository.getAllHistory()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -22,7 +22,7 @@ class HistoryViewModel(
 
     fun deleteCalculation(entity: CalculationHistoryEntity) {
         viewModelScope.launch {
-            historyDao.deleteCalculation(entity)
+            historyRepository.deleteCalculation(entity)
         }
     }
 }

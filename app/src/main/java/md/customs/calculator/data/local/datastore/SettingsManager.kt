@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import md.customs.calculator.presentation.util.AppLanguage
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -16,11 +17,21 @@ class SettingsManager(private val context: Context) {
 
     companion object {
         val LAST_SYNC_DATE = stringPreferencesKey("last_sync_date")
+        val SELECTED_LANGUAGE = stringPreferencesKey("selected_language")
         
         val RATE_EUR = floatPreferencesKey("rate_eur")
         val RATE_USD = floatPreferencesKey("rate_usd")
         val RATE_RON = floatPreferencesKey("rate_ron")
         val RATE_GBP = floatPreferencesKey("rate_gbp")
+    }
+
+    val selectedLanguage: Flow<AppLanguage> = context.dataStore.data.map { prefs ->
+        val langStr = prefs[SELECTED_LANGUAGE]
+        try {
+            if (langStr != null) AppLanguage.valueOf(langStr) else AppLanguage.RO
+        } catch (e: Exception) {
+            AppLanguage.RO
+        }
     }
 
     val lastSyncDate: Flow<String?> = context.dataStore.data.map { prefs ->
@@ -34,6 +45,12 @@ class SettingsManager(private val context: Context) {
             "RON" to (prefs[RATE_RON] ?: 0f),
             "GBP" to (prefs[RATE_GBP] ?: 0f)
         )
+    }
+
+    suspend fun saveSelectedLanguage(language: AppLanguage) {
+        context.dataStore.edit { prefs ->
+            prefs[SELECTED_LANGUAGE] = language.name
+        }
     }
 
     suspend fun saveLastSyncDate(dateStr: String) {
