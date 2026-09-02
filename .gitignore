@@ -23,3 +23,7 @@ keystore.properties
 keystore_info.md
 *.aab
 *.apk
+
+# Local utility scripts
+generate_icons.py
+install_with_retry.ps1
