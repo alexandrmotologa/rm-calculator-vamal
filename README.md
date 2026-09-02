@@ -1,75 +1,153 @@
-# Calculator Vamal Moldova (RM) / Customs Calculator Moldova
+# 🇲🇩 Customs Duty Calculator (Calculator Vamal Moldova)
 
-![Android](https://img.shields.io/badge/Platform-Android-green.svg)
-![Kotlin](https://img.shields.io/badge/Language-Kotlin-blue.svg)
-![Compose](https://img.shields.io/badge/UI-Jetpack%20Compose-orange.svg)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-7F52FF.svg?style=flat-square&logo=kotlin)](https://kotlinlang.org)
+[![Android SDK](https://img.shields.io/badge/Android%20SDK-26%20--%2036-3DDC84.svg?style=flat-square&logo=android)](https://developer.android.com)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-BOM%202025.01-4285F4.svg?style=flat-square&logo=jetpackcompose)](https://developer.android.com/jetpack/compose)
+[![Material 3](https://img.shields.io/badge/Material%203-Enabled-6750A4.svg?style=flat-square)](https://m3.material.io)
+[![Architecture](https://img.shields.io/badge/Architecture-Clean%20%2B%20MVVM-blue.svg?style=flat-square)](docs/ARCHITECTURE.md)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
----
+A modern, offline-first Android application designed to calculate **customs duties, VAT, and postal processing fees** for international parcels imported into the Republic of Moldova. 
 
-## 🇷🇴 Descriere (Romanian)
-
-Această aplicație este un instrument util pentru calcularea taxelor vamale pentru coletele importate în Republica Moldova. Oferă o interfață modernă și calcule precise bazate pe legislația în vigoare și pe cursul valutar oficial.
-
-### 🌟 Funcționalități Cheie
-
-*   **Calcul Taxe Detaliat**: Calculează instantaneu Taxa Vamală, TVA-ul (20%) și Taxa pentru Proceduri Vamale în funcție de datele introduse.
-*   **Curs Valutar în Timp Real**: Preia automat cursurile de schimb de la **Banca Națională a Moldovei (BNM)** pentru o conversie precisă (EUR, USD etc. în MDL).
-*   **Dublu Scenariu Legislativ**:
-    *   **Legea Curentă**: Prag de scutire de 150 EUR, cu includerea costului de transport în baza de calcul dacă pragul este depășit.
-    *   **Legea Iulie 2026**: Simulează regulile viitoare unde coletele sub 150 EUR au baze de calcul diferite (de ex. excluderea transportului).
-*   **Categorii de Produse**: Selectarea categoriei (de ex. Telefoane Mobile, Îmbrăcăminte) pentru a aplica cota corectă a taxei vamale prestabilite.
-*   **Istoric Calcule**: Salvează detaliile coletelor (valoare, taxe, data) într-o bază de date locală pentru a urmări cheltuielile efectuate.
-*   **Urmărire Colet**: Permite salvarea unui Track ID și a companiei de curierat pentru a deschide direct link-uri de urmărire.
-
-### 🛠️ Tehnologii Utilizate
-
-*   **Limbaj**: Kotlin
-*   **UI**: Jetpack Compose (Material Design 3)
-*   **Networking**: Retrofit (cu adaptor XML pentru API-ul BNM)
-*   **Local Storage**:
-    *   **Room Database**: Pentru stocarea istoricului de calcule.
-    *   **Preferences DataStore**: Pentru stocarea setărilor (ex: modul de vizualizare).
-*   **Management State**: ViewModel & Kotlin StateFlow
-*   **Concurrență**: Coroutines (pentru rețea și DB)
-*   **Injecție Dependențe**: AppContainer Manual
+Built with **Jetpack Compose**, **Clean Architecture**, **Kotlin Coroutines & Flow**, **Room Database**, and **Material 3**.
 
 ---
 
-## 🇺🇸 Description (English)
+## ✨ Key Features
 
-An Android application designed to compute customs taxes for parcels imported into the Republic of Moldova. It features a User-Friendly design with accurate math based on current and upcoming legislation with real-time exchange rates.
-
-### 🌟 Key Features
-
-*   **Detailed Tax Calculation**: Instantly computes Customs Duty, VAT (20%), and Processing Fees berdasarkan input.
-*   **Live Currency Rates**: Automatically fetches today's official rates from the **National Bank of Moldova (NBM / BNM)** for accurate conversions to MDL.
-*   **Dual Legislative Scopes**:
-    *   **Current Law**: Uses the 150 EUR exemption threshold; fees apply on item + shipping totals above it.
-    *   **July 2026 Law**: Reflects upcoming norms with adjusted exemption flows (e.g., excluding shipping base for smaller amounts).
-*   **Product Categories**: Easily select categories (e.g., Mobile Phones) with pre-defined duty percentages.
-*   **Calculation History**: Keeps a secure local log of your calculated costs for later auditing.
-*   **Order Meta-data**: Save details like Item Name, Logistics Carrier & Tracking ID to keep your logistics data synced.
-
-### 🛠️ Technical Stack
-
-*   **Language**: Kotlin
-*   **UI**: Jetpack Compose (Material You 3)
-*   **Networking**: Retrofit with XML Adapter (BNM Endpoint)
-*   **Local Storage**:
-    *   **Room Database**: For calculation caching systems.
-    *   **Preferences DataStore**: App preferences/configs.
-*   **State Management**: ViewModel & StateFlow
-*   **Concurrency**: Kotlin Coroutines
-*   **DI**: Manual container pattern
+* 🧮 **Dual Legislative Calculation Engines**:
+  * **Current Law**: Exemption under 150 EUR; standard customs duty (0% - 15%), 20% VAT on taxable base (Parcel + Duty), and 50 MDL procedure fee for parcels over 150 EUR.
+  * **Upcoming Fiscal Reform (October 1, 2026)**: 20% VAT on parcel value + 12 MDL fixed operational fee for parcels $\le$ 150 EUR.
+* 💱 **Live & Cached Exchange Rates**:
+  * Automatic daily synchronization with the **National Bank of Moldova (BNM)** XML exchange rate API.
+  * **Offline-First**: Graceful fallback to local cached rates in `DataStore` if offline.
+* 📦 **Parcel Logistics & Tracking Resolver**:
+  * Track parcels directly via one-tap deep links for **DHL, FedEx, Poșta Moldovei, Nova Poshta, Fan Courier, and Pesoto**.
+* 💾 **Calculation History**:
+  * Persistent local SQLite storage powered by **Room Database** with real-time `Flow` observation.
+* 🌐 **Full Trilingual Localization**:
+  * Seamless runtime switching between **Romanian (RO)**, **English (EN)**, and **Russian (RU)**, persisted in `DataStore`.
+* ⚡ **Performance & Memory Optimized**:
+  * Fully configured for **R8 Full Mode**, aggressive code inlining, and resource shrinking (`isShrinkResources = true`).
 
 ---
 
-## 🚀 Cum se Rulează / How to Build
+## 🏗️ Architecture & Tech Stack
 
-1. Clonează acest repository / Clone this repository.
-2. Deschide proiectul în Android Studio / Open project in Android Studio.
-3. Rulează comanda Gradle / Run Gradle command:
+This project strictly adheres to **Clean Architecture** and **SOLID** principles, promoting high testability, modularity, and maintainability.
+
+```
+                  ┌──────────────────────────────┐
+                  │      Presentation Layer      │
+                  │ (Jetpack Compose, ViewModels)│
+                  └──────────────┬───────────────┘
+                                 │
+                  ┌──────────────▼───────────────┐
+                  │         Domain Layer         │
+                  │ (UseCases, Repositories,     │
+                  │  Type-Safe Models)           │
+                  └──────────────▲───────────────┘
+                                 │
+                  ┌──────────────┴───────────────┐
+                  │          Data Layer          │
+                  │ (Room, DataStore, Retrofit)  │
+                  └──────────────────────────────┘
+```
+
+| Layer / Concern | Technology / Library |
+| :--- | :--- |
+| **Language & Tooling** | Kotlin 2.0.0, KSP, Gradle Kotlin DSL |
+| **UI Framework** | Jetpack Compose (BOM 2025.01.00), Material 3 |
+| **Architecture Pattern** | MVVM + Clean Architecture + Unidirectional Data Flow (UDF) |
+| **Dependency Injection** | Manual Dependency Container (`AppContainer`, `AppViewModelProvider`) |
+| **Asynchronous & Reactive** | Kotlin Coroutines, StateFlow, SharedFlow |
+| **Local Database** | Room Database (SQLite) with KSP |
+| **Key-Value Persistence** | Jetpack DataStore Preferences |
+| **Networking & Parsing** | Retrofit 2, OkHttp 3, XMLUtil Serialization, Kotlinx Serialization |
+| **Unit Testing** | JUnit 4, Kotlin Test |
+| **Minification & Optimization**| R8 Full Mode, ProGuard, Resource Shrinking |
+
+---
+
+## 📁 Project Structure
+
+```
+app/src/main/java/md/customs/calculator/
+├── data/
+│   ├── local/
+│   │   ├── dao/                 # Room DAOs (CalculationHistoryDao)
+│   │   ├── datastore/           # DataStore Preferences (SettingsManager)
+│   │   ├── entity/              # Database Entities (CalculationHistoryEntity)
+│   │   └── AppDatabase.kt       # Room Database Configuration
+│   ├── remote/
+│   │   ├── api/                 # Retrofit Services (BnmApiService)
+│   │   └── dto/                 # XML Response DTOs (BnmExchangeRateResponse)
+│   └── repository/              # Repository Implementations (ExchangeRateRepositoryImpl, HistoryRepositoryImpl)
+├── di/
+│   └── AppContainer.kt          # Manual Dependency Injection Container & ViewModel Factory
+├── domain/
+│   ├── model/                   # Domain Models (ProductCategory, Currency, TaxConstants)
+│   ├── repository/              # Domain Repository Contracts (ExchangeRateRepository, HistoryRepository)
+│   └── usecase/                 # Pure Business Logic (CalculateTaxesUseCase)
+├── presentation/
+│   ├── calculator/              # Main Calculator Screen, Components, & ViewModel
+│   │   └── components/          # Modular UI Cards (Product, Financials, Legislation, Disclaimer)
+│   ├── history/                 # Saved Calculations History Screen & ViewModel
+│   ├── navigation/              # Jetpack Compose NavHost Navigation
+│   ├── theme/                   # Material 3 Colors, Typography, & Themes
+│   └── util/                    # Localization (AppStrings, LanguageManager) & TrackingResolver
+└── CalculatorApplication.kt     # Application class initializing AppContainer
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+* **Android Studio Ladybug (2024.2.1)** or newer
+* **JDK 17** or **JDK 21**
+* **Android SDK**: `compileSdk = 36`, `minSdk = 26`
+
+### Cloning & Building
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/alexandrmotologa/rm-calculator-vamal.git
+   cd rm-calculator-vamal
+   ```
+
+2. Build and run debug build:
    ```bash
    ./gradlew assembleDebug
    ```
-4. Instalează APK-ul format în `app/build/outputs/apk/debug/` / Install APK from the outputs folder.
+
+3. Run automated unit tests:
+   ```bash
+   ./gradlew testDebugUnitTest
+   ```
+
+### Release Signing Setup (Optional)
+To generate signed release bundles, copy `app/keystore.properties.example` to `app/keystore.properties` and add your signing keystore credentials:
+```bash
+cp app/keystore.properties.example app/keystore.properties
+```
+
+---
+
+## 📖 Documentation
+
+* [Architecture Deep Dive](docs/ARCHITECTURE.md) — Comprehensive overview of Clean Architecture layers, data flow, and dependency injection.
+* [Customs Legislation & Tax Rules](docs/CUSTOMS_RULES.md) — Detailed breakdown of customs formulas and the October 2026 fiscal policy.
+* [Contributing Guide](docs/CONTRIBUTING.md) — Guidelines for code style, branching, and pull requests.
+
+---
+
+## ⚖️ Legal & Government Information Disclaimer
+
+> [!IMPORTANT]
+> **Disclaimer**: This application is an independent open-source utility developed for educational and personal informational purposes. It **DOES NOT** represent an official government body and is **NOT** affiliated with the Customs Service of the Republic of Moldova (*Serviciul Vamal al RM*) or the Government of the Republic of Moldova. Official legal references can be consulted at [customs.gov.md](https://customs.gov.md/) and [legis.md](https://www.legis.md/).
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
