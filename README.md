@@ -1,4 +1,4 @@
-# 🇲🇩 Customs Duty Calculator (Calculator Vamal Moldova)
+# Customs Duty Calculator (Calculator Vamal Moldova)
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-7F52FF.svg?style=flat-square&logo=kotlin)](https://kotlinlang.org)
 [![Android SDK](https://img.shields.io/badge/Android%20SDK-26%20--%2036-3DDC84.svg?style=flat-square&logo=android)](https://developer.android.com)
@@ -7,34 +7,34 @@
 [![Architecture](https://img.shields.io/badge/Architecture-Clean%20%2B%20MVVM-blue.svg?style=flat-square)](docs/ARCHITECTURE.md)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-A modern, offline-first Android application designed to calculate **customs duties, VAT, and postal processing fees** for international parcels imported into the Republic of Moldova. 
+An offline-first Android application designed to calculate customs duties, VAT, and postal processing fees for international parcels imported into the Republic of Moldova.
 
-Built with **Jetpack Compose**, **Clean Architecture**, **Kotlin Coroutines & Flow**, **Room Database**, and **Material 3**.
-
----
-
-## ✨ Key Features
-
-* 🧮 **Dual Legislative Calculation Engines**:
-  * **Current Law**: Exemption under 150 EUR; standard customs duty (0% - 15%), 20% VAT on taxable base (Parcel + Duty), and 50 MDL procedure fee for parcels over 150 EUR.
-  * **Upcoming Fiscal Reform (October 1, 2026)**: 20% VAT on parcel value + 12 MDL fixed operational fee for parcels $\le$ 150 EUR.
-* 💱 **Live & Cached Exchange Rates**:
-  * Automatic daily synchronization with the **National Bank of Moldova (BNM)** XML exchange rate API.
-  * **Offline-First**: Graceful fallback to local cached rates in `DataStore` if offline.
-* 📦 **Parcel Logistics & Tracking Resolver**:
-  * Track parcels directly via one-tap deep links for **DHL, FedEx, Poșta Moldovei, Nova Poshta, Fan Courier, and Pesoto**.
-* 💾 **Calculation History**:
-  * Persistent local SQLite storage powered by **Room Database** with real-time `Flow` observation.
-* 🌐 **Full Trilingual Localization**:
-  * Seamless runtime switching between **Romanian (RO)**, **English (EN)**, and **Russian (RU)**, persisted in `DataStore`.
-* ⚡ **Performance & Memory Optimized**:
-  * Fully configured for **R8 Full Mode**, aggressive code inlining, and resource shrinking (`isShrinkResources = true`).
+Built with Jetpack Compose, Clean Architecture, Kotlin Coroutines & Flow, Room Database, and Material 3.
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+## Key Features
 
-This project strictly adheres to **Clean Architecture** and **SOLID** principles, promoting high testability, modularity, and maintainability.
+- **Dual legislative calculation engines**:
+  - Current framework: Exemption under 150 EUR; standard customs duty (0% - 15%), 20% VAT on taxable base (Parcel + Duty), and 50 MDL procedure fee for parcels over 150 EUR.
+  - Upcoming fiscal reform (October 1, 2026): 20% VAT on parcel value + 12 MDL fixed operational fee for parcels <= 150 EUR.
+- **Exchange rate synchronization**:
+  - Daily synchronization with the National Bank of Moldova (BNM) XML exchange rate feed.
+  - Offline-first cache: Fallback to local cached rates stored in `DataStore` when offline.
+- **Logistics and tracking resolver**:
+  - Deep links for parcel status checks across DHL, FedEx, Posta Moldovei, Nova Poshta, Fan Courier, and Pesoto.
+- **Calculation history**:
+  - Persistent SQLite storage powered by Room Database with reactive `StateFlow` streams.
+- **Trilingual localization**:
+  - Runtime language switching between Romanian (RO), English (EN), and Russian (RU), persisted in `DataStore`.
+- **Build and resource optimizations**:
+  - Configured for R8 full-mode minification, code inlining, and resource shrinking.
+
+---
+
+## Architecture & Tech Stack
+
+The codebase follows Clean Architecture and SOLID principles to isolate domain rules from UI and framework APIs.
 
 ```
                   ┌──────────────────────────────┐
@@ -69,7 +69,7 @@ This project strictly adheres to **Clean Architecture** and **SOLID** principles
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 app/src/main/java/md/customs/calculator/
@@ -101,12 +101,12 @@ app/src/main/java/md/customs/calculator/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-* **Android Studio Ladybug (2024.2.1)** or newer
-* **JDK 17** or **JDK 21**
-* **Android SDK**: `compileSdk = 36`, `minSdk = 26`
+- Android Studio Ladybug (2024.2.1) or newer
+- JDK 17 or JDK 21
+- Android SDK: `compileSdk = 36`, `minSdk = 26`
 
 ### Cloning & Building
 1. Clone the repository:
@@ -115,7 +115,7 @@ app/src/main/java/md/customs/calculator/
    cd rm-calculator-vamal
    ```
 
-2. Build and run debug build:
+2. Build debug APK:
    ```bash
    ./gradlew assembleDebug
    ```
@@ -133,21 +133,21 @@ cp app/keystore.properties.example app/keystore.properties
 
 ---
 
-## 📖 Documentation
+## Documentation
 
-* [Architecture Deep Dive](docs/ARCHITECTURE.md) — Comprehensive overview of Clean Architecture layers, data flow, and dependency injection.
-* [Customs Legislation & Tax Rules](docs/CUSTOMS_RULES.md) — Detailed breakdown of customs formulas and the October 2026 fiscal policy.
-* [Contributing Guide](docs/CONTRIBUTING.md) — Guidelines for code style, branching, and pull requests.
+- [Architecture Overview](docs/ARCHITECTURE.md): Detailed overview of Clean Architecture layers, data flow, and dependency injection.
+- [Customs Legislation & Tax Rules](docs/CUSTOMS_RULES.md): Breakdown of customs formulas and the October 2026 fiscal reform.
+- [Contributing Guidelines](CONTRIBUTING.md): Code conventions, branch workflows, and PR standards.
 
 ---
 
-## ⚖️ Legal & Government Information Disclaimer
+## Legal Disclaimer
 
 > [!IMPORTANT]
-> **Disclaimer**: This application is an independent open-source utility developed for educational and personal informational purposes. It **DOES NOT** represent an official government body and is **NOT** affiliated with the Customs Service of the Republic of Moldova (*Serviciul Vamal al RM*) or the Government of the Republic of Moldova. Official legal references can be consulted at [customs.gov.md](https://customs.gov.md/) and [legis.md](https://www.legis.md/).
+> **Disclaimer**: This application is an independent open-source utility developed for informational purposes. It does not represent an official government body and is not affiliated with the Customs Service of the Republic of Moldova (*Serviciul Vamal al RM*) or the Government of the Republic of Moldova. Official legal references can be consulted at [customs.gov.md](https://customs.gov.md/) and [legis.md](https://www.legis.md/).
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
